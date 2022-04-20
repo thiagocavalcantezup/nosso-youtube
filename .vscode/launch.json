@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-NossoYoutubeApplication<nosso-youtube>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "br.com.zup.edu.nossoyoutube.NossoYoutubeApplication",
+      "projectName": "nosso-youtube",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
