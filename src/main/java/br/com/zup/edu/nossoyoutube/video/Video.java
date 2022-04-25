@@ -1,12 +1,17 @@
 package br.com.zup.edu.nossoyoutube.video;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
+@Table(name = "videos")
 public class Video {
 
     @Id
@@ -22,14 +27,20 @@ public class Video {
     @Column(nullable = false)
     private String link;
 
-    @Column(nullable = false)
-    private Integer visualizacoes;
+    @OneToOne(mappedBy = "video", cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private QuantidadeVisualizacoesVideo visualizacoes;
 
-    @Column(nullable = false)
-    private Integer gostei; // joinha para cima
+    @OneToOne(mappedBy = "video", cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private QuantidadeGosteiVideo gostei;
 
-    @Column(nullable = false)
-    private Integer naoGostei; // joinha para baixo
+    @OneToOne(mappedBy = "video", cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private QuantidadeNaoGosteiVideo naoGostei;
+
+    @Version
+    private int versao;
 
     /**
      * @deprecated Construtor de uso exclusivo do Hibernate
@@ -41,9 +52,21 @@ public class Video {
         this.titulo = titulo;
         this.descricao = descricao;
         this.link = link;
-        this.visualizacoes = 0;
-        this.gostei = 0;
-        this.naoGostei = 0;
+        this.visualizacoes = new QuantidadeVisualizacoesVideo(this);
+        this.gostei = new QuantidadeGosteiVideo(this);
+        this.naoGostei = new QuantidadeNaoGosteiVideo(this);
+    }
+
+    public void incrementarVisualizacoes() {
+        visualizacoes.incrementar();
+    }
+
+    public void incrementarGostei() {
+        gostei.incrementar();
+    }
+
+    public void incrementarNaoGostei() {
+        naoGostei.incrementar();
     }
 
     public Long getId() {
