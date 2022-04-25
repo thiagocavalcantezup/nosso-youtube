@@ -3,6 +3,7 @@ package br.com.zup.edu.nossoyoutube;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import br.com.zup.edu.nossoyoutube.video.Video;
 import br.com.zup.edu.nossoyoutube.video.VideoRepository;
 
 @Component
@@ -22,7 +23,11 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void load() {
+        Video video = new Video(
+            "Charlie bit me", "charlie bit my finger", "https://www.example.com"
+        );
 
+        videoRepository.save(video);
     }
 
 }
